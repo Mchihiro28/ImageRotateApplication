@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rotate);
+        setContentView(R.layout.activity_main);
         imageView = findViewById(R.id.ResultView);
         bitIO.setBitmap(((BitmapDrawable)imageView.getDrawable()).getBitmap());
     }
