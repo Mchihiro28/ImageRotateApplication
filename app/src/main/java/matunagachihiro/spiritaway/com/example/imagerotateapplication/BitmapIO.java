@@ -1,7 +1,9 @@
 package matunagachihiro.spiritaway.com.example.imagerotateapplication;
 
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.OutputStream;
 
 

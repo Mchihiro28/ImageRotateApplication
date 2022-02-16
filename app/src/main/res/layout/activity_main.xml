@@ -11,11 +11,11 @@
         android:id="@+id/ResultView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveButton"
         app:srcCompat="@drawable/picture_icon" />
 
     <ImageButton
@@ -25,7 +25,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:onClick="importButton"
-        android:src="@drawable/importButton"
+        android:src="@drawable/importbutton"
         app:layout_constraintEnd_toStartOf="@+id/saveButton"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +36,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:onClick="saveButton"
-        android:src="@drawable/saveButton"
+        android:src="@drawable/savebutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,10 +44,10 @@
         android:id="@+id/rotateLeftButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="125dp"
+        android:layout_marginBottom="75dp"
+        android:onClick="rotateLeftButton"
         android:text="左回転"
         android:textSize="25sp"
-        android:onClick="rotateLeftButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/rotateRightButton"
         app:layout_constraintStart_toStartOf="parent" />
@@ -56,7 +56,7 @@
         android:id="@+id/rotateRightButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="125dp"
+        android:layout_marginBottom="75dp"
         android:text="右回転"
         android:textSize="25sp"
         android:onClick="rotateRightButton"
