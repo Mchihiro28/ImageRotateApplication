@@ -38,28 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Matrix matrix = new Matrix();
     int imageWidth;
     int imageHeight;
-    int degree = 0;
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt("DEGREE", degree);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        bitIO.setBitmap(((BitmapDrawable)imageView.getDrawable()).getBitmap());
-        degree = savedInstanceState.getInt("DEGREE");
-        while(degree != 0) {
-            if (degree > 0) {
-                rotateRight();
-            }else{
-                rotateLeft();
-            }
-        }
-    }
 
     public void importButton(View v){
         getImage();
@@ -152,36 +131,25 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-
-    public void rotateRightButton(View v){ //右回転するボタン
-        rotateRight();
-    }
-
-    public void  rotateRight(){
+    
+    public void  rotateRightButton(View v){
         imageWidth = bitIO.getBitmap().getWidth();
         imageHeight = bitIO.getBitmap().getHeight();
         // 画像中心を基点に90度回転
         matrix.setRotate(90, imageWidth/2, imageHeight/2);
         bitIO.setBitmap(Bitmap.createBitmap(bitIO.getBitmap(), 0, 0,
                 imageWidth, imageHeight, matrix, true));
-        degree += 1;
 
         imageView.setImageBitmap(bitIO.getBitmap());
     }
 
-
-    public void rotateLeftButton(View v){ //左回転するボタン
-        rotateLeft();
-    }
-
-    public  void rotateLeft(){
+    public  void rotateLeftButton(View v){
         // 画像の横、縦サイズを取得
         imageWidth = bitIO.getBitmap().getWidth();
         imageHeight = bitIO.getBitmap().getHeight();
         matrix.setRotate(-90, imageWidth/2, imageHeight/2);
         bitIO.setBitmap(Bitmap.createBitmap(bitIO.getBitmap(), 0, 0,
                 imageWidth, imageHeight, matrix, true));
-        degree -= 1;
 
         imageView.setImageBitmap(bitIO.getBitmap());
     }
