@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ImageRotateApplication</string>
+    <string name="text">プライバシーポリシーは<a href="https://www.dropbox.com/s/70uyttqidhhtxon/%E7%94%
+    BB%E5%83%8F%E5%9B%9E%E8%BB%A2%E3%80%80%EF%BD%9E%E7%94%BB%E5%83%8F%E3%81%AE%E5%90%91%E3%81%8D%E3%
+    82%92%E5%A4%89%E3%81%88%E3%82%8B%E3%82%A2%E3%83%97%E3%83%AA%EF%BD%9E%E3%80%80Privacy%20Policy.pdf?dl=0">
+        こちら</a></string>
 </resources>

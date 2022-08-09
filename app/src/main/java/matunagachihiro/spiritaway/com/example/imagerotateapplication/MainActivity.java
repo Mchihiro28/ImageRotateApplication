@@ -153,4 +153,9 @@ public class MainActivity extends AppCompatActivity {
 
         imageView.setImageBitmap(bitIO.getBitmap());
     }
+
+    public void goPrivacyActivity (View v){
+        Intent intent = new Intent(this,PrivacyActivity.class);
+        startActivity(intent);
+    }
 }
