@@ -9,7 +9,7 @@ import java.io.OutputStream;
 
 public class BitmapIO extends AppCompatActivity {
     Bitmap bitmap; //画像のbitmap
-
+    int adCount = 0;
     boolean type = true; //画像の形式　trueがjpeg、falseがpng、デフォルトはJPEG
 
 
@@ -31,5 +31,16 @@ public class BitmapIO extends AppCompatActivity {
 
     public void convertPNG(Bitmap bitmap, OutputStream fos){ //PNG形式に変換するメソッド
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+    }
+
+    public void addAdCount(){
+        adCount++;
+        if(adCount > 10){
+            adCount = 0;
+        }
+    }
+
+    public boolean getAdcount(){
+        return adCount % 2 == 0;
     }
 }

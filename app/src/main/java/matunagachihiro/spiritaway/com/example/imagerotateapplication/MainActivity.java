@@ -12,11 +12,19 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -30,6 +38,42 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.ResultView);
         bitIO.setBitmap(((BitmapDrawable)imageView.getDrawable()).getBitmap());
 
+
+        //バナー広告表示
+        MobileAds.initialize(this,
+                initializationStatus -> {
+                });
+
+        //AdRequest
+        AdView adView = findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        //ca-app-pub-3940256099942544/1033173712はテスト用ID、リリース前に本番用IDに取り換える
+        InterstitialAd.load(this,
+                "ca-app-pub-3940256099942544/1033173712",
+                adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        mInterstitialAd = null;
+                        Toast.makeText(MainActivity.this,
+                                "広告を読み込み中です。", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     ImageView imageView;
@@ -38,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
     Matrix matrix = new Matrix();
     int imageWidth;
     int imageHeight;
+    InterstitialAd mInterstitialAd;
+    AdRequest adRequest;
 
 
     public void importButton(View v){
@@ -86,9 +132,25 @@ public class MainActivity extends AppCompatActivity {
                         bitIO.setType(false);
                         createFile();
                     }
+
+                    //インタースティシャル広告の表示
+                    bitIO.addAdCount();
+                    if(bitIO.getAdcount()){
+                        showInterstitial();
+                    }
                 })
                 .show();
     }
+
+    public void showInterstitial(){
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(MainActivity.this);
+        } else {
+            Toast.makeText(MainActivity.this,
+                    "広告の読み込みに失敗しました。", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     public void createFile() {
         String fileName;
@@ -136,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         imageWidth = bitIO.getBitmap().getWidth();
         imageHeight = bitIO.getBitmap().getHeight();
         // 画像中心を基点に90度回転
-        matrix.setRotate(90, imageWidth/2, imageHeight/2);
+        matrix.setRotate(90, imageWidth/2f, imageHeight/2f);
         bitIO.setBitmap(Bitmap.createBitmap(bitIO.getBitmap(), 0, 0,
                 imageWidth, imageHeight, matrix, true));
 
@@ -147,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         // 画像の横、縦サイズを取得
         imageWidth = bitIO.getBitmap().getWidth();
         imageHeight = bitIO.getBitmap().getHeight();
-        matrix.setRotate(-90, imageWidth/2, imageHeight/2);
+        matrix.setRotate(-90, imageWidth/2f, imageHeight/2f);
         bitIO.setBitmap(Bitmap.createBitmap(bitIO.getBitmap(), 0, 0,
                 imageWidth, imageHeight, matrix, true));
 
