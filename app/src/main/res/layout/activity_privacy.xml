@@ -35,11 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:adUnitId="ca-app-pub-2742833893230662/8533756637"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-    <!-- ca-app-pub-3940256099942544/6300978111はテスト用ID、
-            リリース前に本番用IDに取り替える　-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

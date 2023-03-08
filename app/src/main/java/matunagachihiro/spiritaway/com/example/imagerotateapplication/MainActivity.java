@@ -55,9 +55,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
 
-        //ca-app-pub-3940256099942544/1033173712はテスト用ID、リリース前に本番用IDに取り換える
         InterstitialAd.load(this,
-                "ca-app-pub-3940256099942544/1033173712",
+                "ca-app-pub-2742833893230662/7451759198",
                 adRequest,
                 new InterstitialAdLoadCallback() {
                     @Override
