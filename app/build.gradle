@@ -9,8 +9,8 @@ android {
         applicationId "matunagachihiro.spiritaway.com.example.imagerotateapplication"
         minSdk 29
         targetSdk 33
-        versionCode 3
-        versionName "2.1"
+        versionCode 4
+        versionName "2.2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
