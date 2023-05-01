@@ -45,7 +45,7 @@
         android:id="@+id/rotateLeftButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="24dp"
         android:onClick="rotateLeftButton"
         android:text="左回転"
         android:textSize="25sp"
@@ -57,7 +57,7 @@
         android:id="@+id/rotateRightButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="24dp"
         android:onClick="rotateRightButton"
         android:text="右回転"
         android:textSize="25sp"
@@ -74,16 +74,6 @@
         android:onClick="goPrivacyActivity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-2742833893230662/8909430659"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

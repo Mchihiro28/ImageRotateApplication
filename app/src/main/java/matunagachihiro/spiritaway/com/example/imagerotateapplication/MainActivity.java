@@ -1,8 +1,10 @@
 package matunagachihiro.spiritaway.com.example.imagerotateapplication;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
@@ -31,10 +33,15 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
     int reloadCount = 0;
+    int useLimit = 0; //一日の利用回数を制限する変数
+    int yesterday = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         //AdRequest
         reloadCount = 0;
-        AdView adView = findViewById(R.id.adView);
         adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                super.onAdFailedToLoad(loadAdError);
-                if(reloadCount < 5) {
-                    reloadCount++;
-                    Log.d("mainbanner","errorcode = " + loadAdError.getCode() + "\nreloaded ad = " + reloadCount
-                        + "\n" +loadAdError.getMessage());
-                    new Handler().postDelayed(() -> adView.loadAd(adRequest), 2000);
-                }
-            }
-        });
     }
 
     @Override
@@ -245,4 +238,34 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,PrivacyActivity.class);
         startActivity(intent);
     }
+
+    public static int getDate(){//現在の日付を返すメソッド
+
+        //取得する日時のフォーマットを指定
+        @SuppressLint("SimpleDateFormat") final DateFormat df = new SimpleDateFormat("dd");
+
+        //時刻をミリ秒で取得
+        final Date date = new Date(System.currentTimeMillis());
+
+        //日時を指定したフォーマットで取得
+        return Integer.parseInt(df.format(date));
+    }
+
+    public void saveUseData(int useLimit, int yesterday){
+        SharedPreferences data = getSharedPreferences("Data", MODE_PRIVATE);
+        SharedPreferences.Editor editor = data.edit();
+
+        editor.putInt("useLimit",this.useLimit);
+        editor.putInt("yesterday", this.yesterday);
+
+        editor.apply();
+    }
+
+    public void readUseData(){
+        SharedPreferences data = getSharedPreferences("Data", MODE_PRIVATE);
+
+        useLimit = data.getInt("useLimit",5);
+        yesterday = data.getInt("yesterday",1);
+    }
+
 }
