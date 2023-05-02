@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     int reloadCount = 0;
     int useLimit = 0; //一日の利用回数を制限する変数
+    int today = 0;
     int yesterday = 0;
 
     @Override
@@ -66,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         reloadCount = 0;
+        today = getDate();
+        readUseData();
+        if(yesterday != today){
+            if(useLimit < 5) {
+                useLimit = 5;
+            }
+        }
+        saveUseData(useLimit,today);
+        ((TextView) findViewById(R.id.textView2)).setText("あと"+ useLimit +"回");
         loadInterstitial(adRequest);
     }
 
@@ -138,26 +149,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void  saveButton(View v){
-        final String[] items = {"JPEG", "PNG"};
-        new AlertDialog.Builder(this)
-                .setTitle("保存する画像のタイプを選択してください")
-                .setItems(items, (dialog, which) -> {
-                    // item_which pressed
-                    if(which == 0){
-                        bitIO.setType(true);
-                        createFile();
-                    }else{
-                        bitIO.setType(false);
-                        createFile();
-                    }
+        if(useLimit > 0) {
+            Toast toast = Toast.makeText(this, "今日はあと"+ useLimit +"回使えます", Toast.LENGTH_LONG);
+            toast.show();
+            final String[] items = {"JPEG", "PNG"};
+            new AlertDialog.Builder(this)
+                    .setTitle("保存する画像のタイプを選択してください")
+                    .setItems(items, (dialog, which) -> {
+                        // item_which pressed
+                        if (which == 0) {
+                            bitIO.setType(true);
+                            createFile();
+                        } else {
+                            bitIO.setType(false);
+                            createFile();
+                        }
 
-                    //インタースティシャル広告の表示
-                    bitIO.addAdCount();
-                    if(bitIO.getAdcount()){
-                        showInterstitial();
-                    }
-                })
-                .show();
+                        //インタースティシャル広告の表示
+                        bitIO.addAdCount();
+                        if (bitIO.getAdcount()) {
+                            showInterstitial();
+                        }
+                    })
+                    .show();
+        }else{
+            Toast toast = Toast.makeText(this, "申し訳ございません。一日の使用回数を超えました", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     public void showInterstitial(){
@@ -251,12 +269,12 @@ public class MainActivity extends AppCompatActivity {
         return Integer.parseInt(df.format(date));
     }
 
-    public void saveUseData(int useLimit, int yesterday){
+    public void saveUseData(int useLimit, int today){
         SharedPreferences data = getSharedPreferences("Data", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
 
         editor.putInt("useLimit",this.useLimit);
-        editor.putInt("yesterday", this.yesterday);
+        editor.putInt("today", this.today);
 
         editor.apply();
     }
@@ -265,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences data = getSharedPreferences("Data", MODE_PRIVATE);
 
         useLimit = data.getInt("useLimit",5);
-        yesterday = data.getInt("yesterday",1);
+        yesterday = data.getInt("today",0);
     }
 
 }
