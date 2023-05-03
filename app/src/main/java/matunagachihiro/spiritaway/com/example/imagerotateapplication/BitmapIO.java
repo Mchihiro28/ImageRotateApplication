@@ -1,5 +1,6 @@
 package matunagachihiro.spiritaway.com.example.imagerotateapplication;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,16 @@ public class BitmapIO extends AppCompatActivity {
     Bitmap bitmap; //画像のbitmap
     int adCount = 0;
     boolean type = true; //画像の形式　trueがjpeg、falseがpng、デフォルトはJPEG
+
+    public boolean isRewarded() {
+        return isRewarded;
+    }
+
+    public void setRewarded(boolean rewarded) {
+        isRewarded = rewarded;
+    }
+
+    boolean isRewarded = false; //リワードを与えるかのフラグ
 
 
     public Bitmap getBitmap() {
@@ -43,4 +54,7 @@ public class BitmapIO extends AppCompatActivity {
     public boolean getAdcount(){
         return adCount % 2 == 0;
     }
+
+
+
 }

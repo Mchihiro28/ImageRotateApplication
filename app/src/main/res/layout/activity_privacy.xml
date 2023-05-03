@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:text="              動画広告を見ると\n             一日の使用回数を\n        5回増やすことができます！"
+        android:text="              動画広告を見ると\n             一日の使用回数を\n        10回増やすことができます！"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"

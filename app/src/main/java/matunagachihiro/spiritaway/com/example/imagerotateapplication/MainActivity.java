@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -24,9 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
@@ -44,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     int useLimit = 0; //一日の利用回数を制限する変数
     int today = 0;
     int yesterday = 0;
+    BitmapIO bitIO = new BitmapIO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,15 +67,40 @@ public class MainActivity extends AppCompatActivity {
 
         reloadCount = 0;
         today = getDate();
-        readUseData();
+        int[] limDay = readUseData();
+        useLimit = limDay[0];
+        yesterday = limDay[1];
         if(yesterday != today){
             if(useLimit < 5) {
                 useLimit = 5;
             }
         }
-        saveUseData(useLimit,today);
+        if(bitIO.isRewarded()){
+            useLimit += 10;
+            bitIO.setRewarded(false);
+        }
+        saveUseData(useLimit,yesterday);
         ((TextView) findViewById(R.id.textView2)).setText("あと"+ useLimit +"回");
         loadInterstitial(adRequest);
+    }
+
+    public int[] readUseData(){
+        SharedPreferences data = getSharedPreferences("Data", MODE_PRIVATE);
+        int[] result = new int[2];
+        result[0] = data.getInt("useLimit",5);
+        result[1] = data.getInt("today",0);
+
+        return result;
+    }
+
+    public void saveUseData(int useLimit, int today){
+        SharedPreferences data = getSharedPreferences("Data", MODE_PRIVATE);
+        SharedPreferences.Editor editor = data.edit();
+
+        editor.putInt("useLimit",useLimit);
+        editor.putInt("today", today);
+
+        editor.apply();
     }
 
     public void loadInterstitial(AdRequest adRe){
@@ -106,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     ImageView imageView;
-    BitmapIO bitIO = new BitmapIO();
+
     // Matrix インスタンス生成
     Matrix matrix = new Matrix();
     int imageWidth;
@@ -157,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
                     .setTitle("保存する画像のタイプを選択してください")
                     .setItems(items, (dialog, which) -> {
                         // item_which pressed
+                        useLimit-=1;
+                        saveUseData(useLimit,today);
                         if (which == 0) {
                             bitIO.setType(true);
                             createFile();
@@ -269,21 +294,6 @@ public class MainActivity extends AppCompatActivity {
         return Integer.parseInt(df.format(date));
     }
 
-    public void saveUseData(int useLimit, int today){
-        SharedPreferences data = getSharedPreferences("Data", MODE_PRIVATE);
-        SharedPreferences.Editor editor = data.edit();
 
-        editor.putInt("useLimit",this.useLimit);
-        editor.putInt("today", this.today);
-
-        editor.apply();
-    }
-
-    public void readUseData(){
-        SharedPreferences data = getSharedPreferences("Data", MODE_PRIVATE);
-
-        useLimit = data.getInt("useLimit",5);
-        yesterday = data.getInt("today",0);
-    }
 
 }

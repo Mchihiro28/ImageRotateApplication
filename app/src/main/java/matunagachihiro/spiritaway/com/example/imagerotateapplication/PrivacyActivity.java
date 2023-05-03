@@ -24,6 +24,7 @@ public class PrivacyActivity extends AppCompatActivity {
 
     int reloadCount = 0;
     private RewardedAd rewardedAd;
+    BitmapIO bitIO = new BitmapIO();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class PrivacyActivity extends AppCompatActivity {
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 super.onAdFailedToLoad(loadAdError);
-                if(reloadCount < 5) {
+                if(reloadCount < 10) {
                     reloadCount++;
                     Log.d("privacybanner","errorcode = " + loadAdError.getCode() + "\nreloaded ad = " + reloadCount
                             + "\n" +loadAdError.getMessage());
@@ -55,6 +56,8 @@ public class PrivacyActivity extends AppCompatActivity {
     }
 
     public void  afterReward(){
+        bitIO.setRewarded(true);
+
         Toast.makeText(this,
                 "報酬を獲得しました！", Toast.LENGTH_SHORT).show();
         Log.d("MYDEBUG", "user get the reward");
@@ -99,11 +102,11 @@ public class PrivacyActivity extends AppCompatActivity {
                 // Ad failed to load.
                 Log.d("maininterstitial","errorcode = " + adError.getCode() + "\nreloaded ad = " + reloadCount
                         + "\n" +adError.getMessage());
-                if(reloadCount < 5) {
+                if(reloadCount < 10) {
                     new Handler().postDelayed(() ->  createAndLoadRewardedAd(), 2000);}
             }
         };
-        RewardedAd.load(this,"",//TODO
+        RewardedAd.load(this,"ca-app-pub-3940256099942544/5224354917",
                 new AdRequest.Builder().build(), adLoadCallback);
         return rewardedAd;
     }
