@@ -13,17 +13,16 @@ public class BitmapIO extends AppCompatActivity {
     int adCount = 0;
     boolean type = true; //画像の形式　trueがjpeg、falseがpng、デフォルトはJPEG
 
-    public boolean isRewarded() {
+    int isRewarded = 0; //リワードを与えるかのフラグ
+    static BitmapIO bitIO = new BitmapIO();
+
+    public void setIsRewarded(int i){
+        isRewarded = i;
+    }
+
+    public int getIsRewarded(){
         return isRewarded;
     }
-
-    public void setRewarded(boolean rewarded) {
-        isRewarded = rewarded;
-    }
-
-    boolean isRewarded = false; //リワードを与えるかのフラグ
-
-
     public Bitmap getBitmap() {
         return bitmap;
     }
@@ -51,8 +50,12 @@ public class BitmapIO extends AppCompatActivity {
         }
     }
 
-    public boolean getAdcount(){
-        return adCount % 2 == 0;
+    public int getAdcount(){
+        return adCount;
+    }
+
+    public static BitmapIO getInstance(){
+        return bitIO;
     }
 
 

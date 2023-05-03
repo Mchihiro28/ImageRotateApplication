@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     int useLimit = 0; //一日の利用回数を制限する変数
     int today = 0;
     int yesterday = 0;
-    BitmapIO bitIO = new BitmapIO();
+    BitmapIO bitIO = BitmapIO.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
                 useLimit = 5;
             }
         }
-        if(bitIO.isRewarded()){
+        if(bitIO.getIsRewarded() > 0){
             useLimit += 10;
-            bitIO.setRewarded(false);
+            bitIO.setIsRewarded(0);
         }
         saveUseData(useLimit,yesterday);
         ((TextView) findViewById(R.id.textView2)).setText("あと"+ useLimit +"回");
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //インタースティシャル広告の表示
                         bitIO.addAdCount();
-                        if (bitIO.getAdcount()) {
+                        if (bitIO.getAdcount()%2 == 0) {
                             showInterstitial();
                         }
                     })

@@ -24,7 +24,7 @@ public class PrivacyActivity extends AppCompatActivity {
 
     int reloadCount = 0;
     private RewardedAd rewardedAd;
-    BitmapIO bitIO = new BitmapIO();
+    BitmapIO bitIO = BitmapIO.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +56,7 @@ public class PrivacyActivity extends AppCompatActivity {
     }
 
     public void  afterReward(){
-        bitIO.setRewarded(true);
+        bitIO.setIsRewarded(1);
 
         Toast.makeText(this,
                 "報酬を獲得しました！", Toast.LENGTH_SHORT).show();
