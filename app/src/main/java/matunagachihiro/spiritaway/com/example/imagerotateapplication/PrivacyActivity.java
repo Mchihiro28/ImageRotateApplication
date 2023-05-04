@@ -106,7 +106,7 @@ public class PrivacyActivity extends AppCompatActivity {
                     new Handler().postDelayed(() ->  createAndLoadRewardedAd(), 2000);}
             }
         };
-        RewardedAd.load(this,"ca-app-pub-3940256099942544/5224354917",
+        RewardedAd.load(this,"ca-app-pub-2742833893230662/8035422942",
                 new AdRequest.Builder().build(), adLoadCallback);
         return rewardedAd;
     }
