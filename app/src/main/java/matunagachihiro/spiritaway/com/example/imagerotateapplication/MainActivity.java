@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     public void loadInterstitial(AdRequest adRe){
 
         InterstitialAd.load(this,
-                "ca-app-pub-2742833893230662/7451759198",
+                "ca-app-pub-2742833893230662/4101693897",
                 adRe,
                 new InterstitialAdLoadCallback() {
                     @Override
